@@ -1,0 +1,61 @@
+services:
+  fastapi:
+    container_name: upload_service_fastapi
+    restart: always
+    build:
+      context: backend/
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8008"
+
+    depends_on:
+      - postgresql
+    command: >
+      sh -c "alembic upgrade head && gunicorn -b 0.0.0.0:8008 -w 4 -t 120 -k uvicorn.workers.UvicornWorker main:app"
+
+    env_file:
+      - backend/.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - upload_service_network
+
+  postgresql:
+    container_name: upload_service_postgresql
+    image: postgres:16
+    hostname: postgresql
+    ports:
+      - "5444:5432"
+    volumes:
+      - upload_service_postgres_data:/var/lib/postgresql/data
+    labels:
+      - "traefik.enable=false"
+    env_file:
+      - backend/.env
+    networks:
+      - upload_service_network
+
+  minio:
+    container_name: upload_service_minio
+    image: minio/minio
+    hostname: minio
+    # Remove the 'ports' section, Traefik will manage external access
+    ports:
+      - '9008:9000'
+      - '9098:9090'
+    volumes:
+      - upload_service_minio_data:/data
+    env_file:
+      - backend/.env
+    command: server /data --console-address ":9090"
+
+    networks:
+      - upload_service_network
+
+volumes:
+  upload_service_postgres_data:
+  upload_service_minio_data:
+
+networks:
+  upload_service_network:
+    external: true

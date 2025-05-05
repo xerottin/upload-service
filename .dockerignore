@@ -1,0 +1,42 @@
+# Обычные системные файлы
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.swp
+*.bak
+.DS_Store
+
+# Git-репозиторий
+.git/
+.gitignore
+
+# Логи
+*.log
+
+# IDE и редакторы
+.vscode/
+.idea/
+
+# Python виртуальное окружение
+venv/
+env/
+.venv/
+
+# Кэш
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Docker файлы
+Dockerfile
+.dockerignore
+
+# Тесты (если не нужны в контейнере)
+tests/
+test.py
+
+
+# Пример .env файла — избегаем попадания чувствительных данных
+example.env
