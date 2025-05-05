@@ -58,4 +58,5 @@ volumes:
 
 networks:
   upload_service_network:
-    external: true
+    name: upload_service_network
+    external: True

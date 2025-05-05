@@ -4,12 +4,12 @@ from sqlalchemy import QueuePool, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker
 
-from core.config import POSTGRES_DB_URL
+from core.config import DATABASE_URL
 
 Base = declarative_base()
 
 engine = create_engine(
-    POSTGRES_DB_URL,
+    DATABASE_URL,
     poolclass=QueuePool,
     pool_size=5,
     max_overflow=5,
