@@ -9,29 +9,15 @@ services:
       - "8088:8008"
 
     depends_on:
-      - postgresql
+      - minio
+
     command: >
-      sh -c "alembic upgrade head && gunicorn -b 0.0.0.0:8008 -w 4 -t 120 -k uvicorn.workers.UvicornWorker main:app"
+      sh -c "gunicorn -b 0.0.0.0:8008 -w 4 -t 120 -k uvicorn.workers.UvicornWorker main:app"
 
     env_file:
       - backend/.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    networks:
-      - upload_service_network
-
-  postgresql:
-    container_name: upload_service_postgresql
-    image: postgres:16
-    hostname: postgresql
-    ports:
-      - "5444:5432"
-    volumes:
-      - upload_service_postgres_data:/var/lib/postgresql/data
-    labels:
-      - "traefik.enable=false"
-    env_file:
-      - backend/.env
     networks:
       - upload_service_network
 
@@ -53,7 +39,6 @@ services:
       - upload_service_network
 
 volumes:
-  upload_service_postgres_data:
   upload_service_minio_data:
 
 networks:
