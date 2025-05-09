@@ -13,6 +13,7 @@ app = FastAPI(
     openapi_url="/openapi.json" # raw OpenAPI spec
 )
 
+
 @app.on_event("startup")
 def startup():
     client = get_minio_client()
