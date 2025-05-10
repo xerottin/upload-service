@@ -4,6 +4,7 @@ from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
 
+DATABASE_URL = os.environ.get('DATABASE_URL')
 MINIO_ENDPOINT = os.environ.get('MINIO_ENDPOINT')
 MINIO_ACCESS_KEY = os.environ.get('MINIO_ACCESS_KEY')
 MINIO_SECRET_KEY = os.environ.get('MINIO_SECRET_KEY')
