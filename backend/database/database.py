@@ -25,6 +25,7 @@ SessionLocal = sessionmaker(
 )
 
 
+
 def get_pg_db() -> Iterator[Session]:
     """FastAPI dependency that provides a sqlalchemy session"""
     db = SessionLocal()
